@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
 		rotY = Mathf.Clamp(rotY, -60f, 60f);
 		
 		// Creating the movement vector with a 0 Y value.
-		Vector3 movement = new Vector3(moveLR, 0, moveFB);
+		Vector3 movement = new Vector3(moveLR, 0, moveFB).normalized * movementSpeed;
 		
 		// Rotating the player's body on the Y axis only.
 		transform.Rotate(0, rotX, 0);
