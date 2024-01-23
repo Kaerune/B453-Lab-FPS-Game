@@ -16,18 +16,6 @@ public abstract class Weapon : MonoBehaviour
     [Tooltip("Decal to use for bullet holes.")]
     [SerializeField] protected GameObject bulletHole;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // Fire a bullet from the weapon.
     public virtual void Shoot()
     {

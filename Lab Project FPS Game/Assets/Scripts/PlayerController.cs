@@ -19,9 +19,13 @@ public class PlayerController : MonoBehaviour
 	private float rotY; // Rotation on the Y axis for the mouse movement.
 
 	// References
+	[Header("References")]
+	[Tooltip("The current Weapon the player has equipped.")]
+	[SerializeField] Weapon equippedWeapon; // Reference to the current item the player is holding with the Weapon script on it (or anything that inherits from Weapon)
 	private CharacterController cc; // Reference to the CharacterController component on the gameobject this script is attached to.
 	private Camera _camera; // Reference to a camera.
 	
+	// Recall: Start() is called a single time when this script first enters the game world. It runs after Awake() but before the first Update().
 	private void Start()
 	{
 		// Lock the cursor to the game window (by default the cursor will also not be visible).
@@ -32,11 +36,19 @@ public class PlayerController : MonoBehaviour
 		_camera = gameObject.transform.GetChild(0).transform.gameObject.GetComponent<Camera>();
 	}
 	
+	// Remember, anything in Update() happens every single frame.
 	private void Update()
 	{
 		// Here we call Move() every single frame which checks for movement and applies it if necessary.
 		// NOTE: We could also check for input in Update() and call the method depending on input, or we can call the method every frame in Update() and have the input checking in the method like we do here. There is no performance difference.
 		Move();
+
+		// Checking each frame to see if the left mouse click is pressed AND making sure a Weapon is actually equipped.
+		if (Input.GetMouseButtonDown(0) && equippedWeapon != null)
+		{
+			// Call PullTrigger().
+			PullTrigger();
+		}
 	}
 	
 	// Method to check for input and move the character and camera accordingly.
@@ -82,5 +94,12 @@ public class PlayerController : MonoBehaviour
 		// Notice that we are also multiplying the final movement vector by Time.deltaTime so that the movement speed is independent of the framerate.
 		movement = transform.rotation * movement;
 		cc.Move(movement * Time.deltaTime);
+	}
+
+	// Pull the trigger on the equipped Weapon, and let the Weapon handle the specificis of shooting.
+	void PullTrigger()
+	{
+		// Call the Shoot() method on the Weapon, allowing it to decide if and how it fires.
+		equippedWeapon.Shoot();
 	}
 }
