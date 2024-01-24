@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float sensitivity; // Try a value of 2 to start.
 	[Tooltip("The sprinting movement speed of the player in meters per second.")]
     [SerializeField] float sprintSpeed; // Try a value of 10 to start.
-	
+
+	[SerializeField] int currentAmmo = 0;
+ 
 	private float moveFB; // Used to track forward or backward movement from -1 to 1.
 	private float moveLR; // Used to track left or right movement from -1 to 1.
 	private float rotX; // Rotation on the X axis for the mouse movement.
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] Weapon equippedWeapon; // Reference to the current item the player is holding with the Weapon script on it (or anything that inherits from Weapon)
 	private CharacterController cc; // Reference to the CharacterController component on the gameobject this script is attached to.
 	private Camera _camera; // Reference to a camera.
+	[SerializeField] C4 myC4;
 	
 	// Recall: Start() is called a single time when this script first enters the game world. It runs after Awake() but before the first Update().
 	private void Start()
@@ -48,6 +51,11 @@ public class PlayerController : MonoBehaviour
 		{
 			// Call PullTrigger().
 			PullTrigger();
+		}
+
+		if (Input.GetKeyDown(KeyCode.C))
+		{
+			myC4.TriggerC4();
 		}
 	}
 	
@@ -101,5 +109,10 @@ public class PlayerController : MonoBehaviour
 	{
 		// Call the Shoot() method on the Weapon, allowing it to decide if and how it fires.
 		equippedWeapon.Shoot();
+	}
+
+	public void PickupAmmo(int amount)
+	{
+		currentAmmo += amount;
 	}
 }
