@@ -23,7 +23,7 @@ public class AmmoPickup : MonoBehaviour, IPickupable
 
     public void PickUp(PlayerController player)
     {
-        player.PickupAmmo(ammo);
+        player.GainAmmo(ammo);
     }
 
     private void OnTriggerEnter(Collider other)

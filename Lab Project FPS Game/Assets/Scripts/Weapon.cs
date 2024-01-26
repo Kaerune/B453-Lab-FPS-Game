@@ -55,32 +55,14 @@ public abstract class Weapon : MonoBehaviour
 
     // Reload the weapon.
     // NOTE: Change all of this to instead return the number of rounds used so when the player reloads it can subtract that many rounds from their inventory.
-    public virtual int Reload(int rounds)
+    public virtual void Reload(int rounds)
     {
-        // Check to see if more bullets can be put into the weapon.
-        if (currentBullets < maxBullets)
-        {
-            // How many bullets can be added to the weapon.
-            // NOTE: This needs to be fixed. What if the gun has 20/30 rounds and you try to add only 5? It will say you used 10.
-            int roundsUsed = maxBullets - currentBullets;
-            // The number of rounds from the number of rounds attemtped to be added that weren't added.
-            // NOTE: This needs to be fixed. What if you tried to add 5, it said you used 10 (above), now it will say you have -5 left over.
-            int roundsLeftOver = rounds - roundsUsed;
+        currentBullets += rounds;
+    }
 
-            // If the bullets added exceeds the maximum capacity, set the current loaded amount to the max.
-            if (currentBullets > maxBullets)
-            {
-                // Set current rounds loaded to the max.
-                currentBullets = maxBullets;
-            }
-            // Return how many rounds didn't get used.
-            return roundsLeftOver;
-        }
-        // This part is called if the weapon is already loaded with the maximum number of rounds.
-        else
-        {
-            // Return the number of rounds attempted to be put in the weapon.
-            return rounds;
-        }
+    // Gets how many rounds are missing in the weapon
+    public virtual int GetMissingRounds()
+    {
+        return (maxBullets - currentBullets);
     }
 }

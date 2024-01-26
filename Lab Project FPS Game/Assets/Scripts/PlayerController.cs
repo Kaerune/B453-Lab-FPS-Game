@@ -14,8 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float sprintSpeed; // Try a value of 10 to start.
 
 	[SerializeField] int currentAmmo = 0;
- 
-	private float moveFB; // Used to track forward or backward movement from -1 to 1.
+    [SerializeField] int currentC4 = 0;
+
+    private float moveFB; // Used to track forward or backward movement from -1 to 1.
 	private float moveLR; // Used to track left or right movement from -1 to 1.
 	private float rotX; // Rotation on the X axis for the mouse movement.
 	private float rotY; // Rotation on the Y axis for the mouse movement.
@@ -53,7 +54,13 @@ public class PlayerController : MonoBehaviour
 			PullTrigger();
 		}
 
-		if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetButtonDown("Reload") && equippedWeapon != null)
+        {
+            // Call WeaponReload().
+            WeaponReload();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
 		{
 			myC4.TriggerC4();
 		}
@@ -111,8 +118,38 @@ public class PlayerController : MonoBehaviour
 		equippedWeapon.Shoot();
 	}
 
-	public void PickupAmmo(int amount)
+	// increases ammo amount
+	public void GainAmmo(int amount)
 	{
 		currentAmmo += amount;
+	}
+
+    // increases C4 amount
+    public void GainC4(int amount)
+    {
+        currentC4 += amount;
+    }
+
+    void WeaponReload()
+	{
+		// If the player has ammo in their inventory...
+		if(currentAmmo > 0)
+		{
+			// If the ammo in the inventory is less than how much is missing...
+			if(currentAmmo < equippedWeapon.GetMissingRounds())
+			{
+				// Use all ammo to reload and remove all inventory ammo
+				equippedWeapon.Reload(currentAmmo);
+				currentAmmo = 0;
+			}
+			else
+			{
+				// Use amount of ammo equal to that of what is missing from the gun to get to max
+				int temp = equippedWeapon.GetMissingRounds();
+                equippedWeapon.Reload(equippedWeapon.GetMissingRounds());
+				currentAmmo -= temp;
+            }
+			
+		}
 	}
 }

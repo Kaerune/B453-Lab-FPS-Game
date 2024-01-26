@@ -265,8 +265,9 @@ MonoBehaviour:
   speed: 6
   sensitivity: 2
   sprintSpeed: 10
-  currentAmmo: 0
+  currentAmmo: 100
   equippedWeapon: {fileID: 1636294984535191726}
+  myC4: {fileID: 0}
 --- !u!1001 &4489889541553546998
 PrefabInstance:
   m_ObjectHideFlags: 0

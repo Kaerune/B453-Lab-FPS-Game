@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunName: AK-47
-  currentBullets: 31
-  maxBullets: 30
+  currentBullets: 32
+  maxBullets: 32
   bulletHole: {fileID: 2070047944242455418, guid: d0ef6f27e71cc2847812b3414ac61c64,
     type: 3}
